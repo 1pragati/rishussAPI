@@ -30,7 +30,7 @@ exports.addEmployee = async(req, res)=>{
   
         const Ninfo = await transporter.sendMail({
           from: '"srishti sharma" <rishusinfotech@gmail.com>', // sender address
-          to: "pragatipatidar00@gmail.com", // list of receivers
+          to: email, // list of receivers
           subject: "kindly check email and password", // Subject line
           text: `your email ${email} and your password ${password}`, // plain text body
         
