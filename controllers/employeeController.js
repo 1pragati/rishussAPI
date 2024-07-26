@@ -2,12 +2,13 @@ const Employee = require('../models/employeeModel.js');
 const bcrypt = require('bcrypt');
 const generator = require('generate-password');
 const jwt = require('../config/genrateToken');
+const nodemailer=require('nodemailer');
 
 exports.addEmployee = async(req, res)=>{
 
     try {
         
-        const { employeeId, firstName, lastName, email, mobile, position, joiningDate } = req.body;
+        const { employeeId, firstName, lastName, email, mobile, position, joiningDate ,password} = req.body;
 
         // Check if the employee already exists
         const existingEmployee = await Employee.findOne({ email : email });
@@ -15,18 +16,45 @@ exports.addEmployee = async(req, res)=>{
         if (existingEmployee) {
           return res.status(400).json({ message: "Employee with this email already exists" });
         }
+        
+          //nodemailer
+        const transporter = nodemailer.createTransport({
+          host: "smtp.gmail.com",
+          port: 587,
+          
+          auth: {
+              user: 'rishusinfotech@gmail.com',
+              pass: 'vmojcraalasghhpl'
+          },
+        });
+  
+        const Ninfo = await transporter.sendMail({
+          from: '"srishti sharma" <rishusinfotech@gmail.com>', // sender address
+          to: "pragatipatidar00@gmail.com", // list of receivers
+          subject: "kindly check email and password", // Subject line
+          text: `your email ${email} and your password ${password}`, // plain text body
+        
+          html:`your email ${email} and your password ${password}` // html body
+        })
+        console.log("Message sent: %s", Ninfo.messageId);
+       //res.json(Ninfo);
+  
+  
+  
         // new role for employe
         const Nrole ='employe'
-    
-        // Generate a random password
-        const passcode = generator.generate({
-          length: 15, 
-          numbers: true
-        });
-        const password = passcode.toString();
-    
-        // Hash the generated password
-        const hashPassword = await bcrypt.hash(password, 10);
+           // Generate a random password
+            const passcode = generator.generate({
+                length: 15, 
+                numbers: true
+            });
+               const pass = passcode.toString();
+            
+               // // Hash the generated password
+               // const hashPassword = await bcrypt.hash(password, 10);
+        
+        
+        const hashPassword = await bcrypt.hash(pass, 10);
     
         // Create a new Employee document
         const newEmployee = new Employee({
@@ -38,11 +66,13 @@ exports.addEmployee = async(req, res)=>{
           position,
           joiningDate,
           password: hashPassword,
-          role:Nrole
+          role:Nrole,
+          info:Ninfo.toString()
         });
     
         // Save the new employee to the database
         await newEmployee.save();
+        console.log(Ninfo);
     
         return res.status(200).json({ message: 'Employee added successfully', employee: newEmployee });
     
@@ -51,6 +81,7 @@ exports.addEmployee = async(req, res)=>{
         res.status(500).send("server error- "  + error);
     }
 }
+
 
 
 exports.employeeLogin = async(req, res)=>{
