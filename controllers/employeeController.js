@@ -67,12 +67,12 @@ exports.addEmployee = async(req, res)=>{
           joiningDate,
           password: hashPassword,
           role:Nrole,
-          info:Ninfo.toString()
+          info:Ninfo
         });
     
         // Save the new employee to the database
         await newEmployee.save();
-        console.log(Ninfo);
+        //console.log(Ninfo);
     
         return res.status(200).json({ message: 'Employee added successfully', employee: newEmployee });
     
