@@ -4,13 +4,9 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const employeeData = new Schema({
-
-
-    employeeId: Number,
-    
         firstName: {
             type: String,
-            required: true
+            
         },
         lastName: {
             type: String,
@@ -18,28 +14,33 @@ const employeeData = new Schema({
         
         email: {
             type: String,
-            required: true
+            
         },
         mobile: {
             type: Number,
-            required: true
+            
+        },
+        emergencyNo:{
+           type:Number,
         },
         position:{
 
             type: String,
-            require: true
+            
         },
        
         joiningDate: {
 
             type: String,
-            require: true
-        },
+                    },
         password: {
             type: String,
-            require: true
+            
         },
-        role:String,
+        address:{
+            type:String,
+        }
+        
     
     },{collection: "EmployeeData"});
 
