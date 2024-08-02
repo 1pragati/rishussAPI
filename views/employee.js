@@ -12,4 +12,6 @@ router.get("/fetchemp/:id",employeeController.employeFetch);
 
 router.delete('/empdelete/:id',employeeController.employeDelete);
 
+router.put('/update/:id',employeeController.employeUpdate);
+
 module.exports = router;
