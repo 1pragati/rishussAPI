@@ -2,6 +2,9 @@ const express = require('express');
 const dotenv = require('dotenv')
 const DB =  require('./config/dbConfig');
 const bodyParser= require('body-parser');
+const internRoute= require('./views/internRoute.js');
+const attendanceRouter = require('./views/attendence.js');
+const empSignup = require('./views/empSign.js');
 const employeeRoute = require("./views/employee.js");
 const hrRoute = require('./views/hrroute.js');
 const cors = require('cors');
@@ -20,6 +23,9 @@ app.get('/', (req, res)=>{
 app.use(cors());
 
 
+app.use('/attendence',attendanceRouter);
+app.use('/api',empSignup);
+app.use('/api',internRoute);
 app.use('/emp', employeeRoute);
 app.use('/hr',hrRoute);
 
