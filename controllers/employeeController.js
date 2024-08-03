@@ -8,7 +8,7 @@ exports.addEmployee = async(req, res)=>{
 
     try {
         
-        const {  firstName, lastName, email, mobile,emergencyNo, position, joiningDate ,address} = req.body;
+        const {  employeId,  firstName, lastName, email, mobile,emergencyNo, position, joiningDate ,address} = req.body;
 
         // Check if the employee already exists
         const existingEmployee = await Employee.findOne({ email : email });
@@ -32,6 +32,7 @@ exports.addEmployee = async(req, res)=>{
     
         // Create a new Employee document
         const newEmployee = new Employee({
+          employeId,
           firstName,
           lastName,
           email,
@@ -136,7 +137,7 @@ exports.employeDelete=async(req,res)=>{
 exports.employeUpdate = async (req,res)=>{
 
   try {
-    const { firstName="", lastName="", email="", mobile="",emergencyNo="", position="", joiningDate="" ,password="",address=""} = req.body;
+    const {employeId="", firstName="", lastName="", email="", mobile="",emergencyNo="", position="", joiningDate="" ,password="",address=""} = req.body;
     const id = req.params.id;
     console.log(id);
     if(!id){
@@ -144,7 +145,7 @@ exports.employeUpdate = async (req,res)=>{
       
     }
     const employe = await Employee.findOneAndUpdate({_id:id},
-      { firstName, lastName, email, mobile,emergencyNo, position, joiningDate ,password,address})
+      { employeId,firstName, lastName, email, mobile,emergencyNo, position, joiningDate ,password,address})
      console.log(employe)
      if(!employe){
       return res.status(400).json({ message : "employe not updated"})
